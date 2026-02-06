@@ -1,13 +1,17 @@
-import sys
-print("Starting import...", flush=True)
-import fastapi
-import uvicorn
-print("FastAPI imported.", flush=True)
-try:
-    from docling.document_converter import DocumentConverter
-    print("Docling imported.", flush=True)
-except Exception as e:
-    print(f"Docling import failed: {e}", flush=True)
+import importlib.util
 
-if __name__ == "__main__":
-    print("Hello from test server", flush=True)
+import pytest
+
+
+def test_fastapi_and_uvicorn_available():
+    assert importlib.util.find_spec("fastapi") is not None
+    assert importlib.util.find_spec("uvicorn") is not None
+
+
+def test_docling_dependency_available_or_skipped():
+    if importlib.util.find_spec("docling") is None:
+        pytest.skip("docling is not installed in this environment")
+
+    from docling.document_converter import DocumentConverter
+
+    assert DocumentConverter is not None

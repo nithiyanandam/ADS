@@ -15,7 +15,7 @@ console.error("!!! BATCH PROCESSOR RELOADED - V4 !!!");
  * @param {Array} pairs - List of { id, oldFile, newFile }
  * @param {Object} aiConfig - AI Configuration
  * @param {Function} onProgress - Callback (completedCount, totalCount, currentFileId)
- * @returns {Promise<Array>} - List of file results { fileId, status ('Passed'|'Failed'|'Error'), defects, stats }
+ * @returns {Promise<Array>} - List of file results { fileId, status ('Passed'|'Failed'|'Review Needed'|'Error'), defects, uncertain, diffs }
  */
 export async function processBatch(pairs, aiConfig, onProgress) {
     const results = [];
@@ -49,8 +49,8 @@ export async function processBatch(pairs, aiConfig, onProgress) {
 
 async function processSinglePair(pair, aiConfig) {
     // 1. Parse
-    const oldJson = await parsePdf(pair.oldFile);
-    const newJson = await parsePdf(pair.newFile);
+    const oldJson = await parsePdf(pair.oldFile, aiConfig);
+    const newJson = await parsePdf(pair.newFile, aiConfig);
 
     // 2. Normalize
     const oldNorm = normalizeDocument(oldJson);

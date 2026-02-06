@@ -178,7 +178,7 @@ function App() {
     <div className="app-card">
       <div className="card-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <h1>AI-Powered Docdiff</h1>
+          <h1>AI-Powered DocDiff</h1>
           <span style={{
             fontSize: '11px',
             background: aiConfig.apiKey ? '#dcfce7' : '#f3f4f6',
